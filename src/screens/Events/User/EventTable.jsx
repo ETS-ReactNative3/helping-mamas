@@ -1,10 +1,12 @@
 import React from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import * as Table from "../../sharedStyles/tableStyles";
 import Icon from "../../../components/Icon";
 import styled from "styled-components";
 import { Button } from "reactstrap";
+import Link from "next/link";
 
 const Styled = {
   Button: styled(Button)`
@@ -38,7 +40,7 @@ const convertTime = (time) => {
 }
 
 
-const EventTable = ({ events, onRegister, onUnregister, user}) => {
+const EventTable = ({ events, onRegisterClicked, onUnregister, user}) => {
   if (!user) {
     const { data: session } = useSession();
     user = session.user;
@@ -48,7 +50,7 @@ const EventTable = ({ events, onRegister, onUnregister, user}) => {
       <Styled.ul>
         {events.map((event) => (
           <Styled.List>
-            <Table.EventList>
+            <Link href={`events/${event._id}}`}><Table.EventList>
               <Table.Inner>
                 <Table.Slots>SLOTS</Table.Slots>
                 <Table.Register>
@@ -60,7 +62,7 @@ const EventTable = ({ events, onRegister, onUnregister, user}) => {
                       </Styled.Button>
                     </>
                   ) : (
-                    <Styled.Button onClick={() => onRegister(event)}>
+                    <Styled.Button onClick={() => onRegisterClicked(event)}>
                       <Icon color="grey3" name="add" />
                       <span>Sign up</span>
                     </Styled.Button>
@@ -74,7 +76,7 @@ const EventTable = ({ events, onRegister, onUnregister, user}) => {
                 </Table.Text>
               </Table.Inner>
               <Table.Creation>{event.date.slice(0,10)}</Table.Creation>
-            </Table.EventList>
+            </Table.EventList></Link> 
           </Styled.List>
         ))}
       </Styled.ul>
@@ -82,9 +84,10 @@ const EventTable = ({ events, onRegister, onUnregister, user}) => {
   );
 };
 EventTable.propTypes = {
-  events:PropTypes.Array,
-  onEditClicked: PropTypes.func,
-  onDeleteClicked: PropTypes.func,
+  events: PropTypes.Array,
+  onRegisterClicked: PropTypes.func,
+  onUnregister: PropTypes.func,
+  user: PropTypes.object
 }
 
 export default EventTable;
