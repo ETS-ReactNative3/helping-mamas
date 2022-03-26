@@ -23,20 +23,17 @@ export default async function handler(req, res, next) {
             res.status(400).json({ error: "Object ID not valid" });
         }
 
-        await deleteEventID(id, next);
-        
-        res.json({
-            message: "Event successfully deleted!",
-        });
+    await deleteEventID(id, next);
 
-    } else if (req.method === "PUT") {
-        const eventID = req.query.id;
-        const event = req.body;
+    res.json({
+      message: "Event successfully deleted!",
+    });
+  } else if (req.method === "PUT") {
+    const eventID = req.query.id;
+    const event = req.body;
 
-        await updateEventID(eventID, event);
-        
-        res.json({
-            message: "Event successfully updated!",
-        });
-    }
+    const updatedEvent = await updateEventID(eventID, event);
+
+    res.status(200).json(updatedEvent);
+  }
 }

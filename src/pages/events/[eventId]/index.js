@@ -162,11 +162,11 @@ const EventInfo = ({ user }) => {
                     </Styled.InfoTableCol>
                 </Styled.InfoTable>
             </Styled.EventCol2>
-        </Styled.EventTable>
         {user.role == "volunteer" && event.max_volunteers-event.volunteers.length != 0 && <Styled.Button onClick={() => onRegisterClicked(event)}>
             Register
         </Styled.Button>}
-        </>
-    )};
+      </Styled.EventTable>
+    </>
+)};
 
 export default EventInfo;
