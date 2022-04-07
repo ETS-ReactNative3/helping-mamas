@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 const { getEventByID, deleteEventID, updateEventID } = require("../../../../server/actions/events");
 const {isValidObjectID} = require("../../../../server/validators");
+=======
+const { 
+  getEventByID, 
+  deleteEventID, 
+  updateEventID 
+} = require("../../../../server/actions/events");
+const { isValidObjectID } = require("../../../../server/validators");
+>>>>>>> 135ca5f6f38777a25f03312f11dae578de55a0a1
 
 export default async function handler(req, res, next) {
     if (req.method === "GET") {
@@ -23,11 +32,11 @@ export default async function handler(req, res, next) {
             res.status(400).json({ error: "Object ID not valid" });
         }
 
-    await deleteEventID(id, next);
+        await deleteEventID(id, next);
 
-    res.json({
-      message: "Event successfully deleted!",
-    });
+        res.json({
+          message: "Event successfully deleted!",
+        });
   } else if (req.method === "PUT") {
     const eventID = req.query.id;
     const event = req.body;

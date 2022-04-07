@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import {useRouter} from 'next/router';
+=======
+import { useRouter } from 'next/router';
+>>>>>>> 135ca5f6f38777a25f03312f11dae578de55a0a1
 import styled from "styled-components";
 import { Button } from "reactstrap";
 import { fetchEventsById } from "../../../actions/queries";
@@ -165,8 +169,13 @@ const EventInfo = ({ user }) => {
         {user.role == "volunteer" && event.max_volunteers-event.volunteers.length != 0 && <Styled.Button onClick={() => onRegisterClicked(event)}>
             Register
         </Styled.Button>}
+<<<<<<< HEAD
       </Styled.EventTable>
     </>
 )};
+=======
+        </>
+    )};
+>>>>>>> 135ca5f6f38777a25f03312f11dae578de55a0a1
 
 export default EventInfo;
