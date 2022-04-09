@@ -17,9 +17,9 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 import styled from "styled-components";
-import Icon from "./Icon";
+import variables from "../design-tokens/_variables.module.scss";
 import { capitalizeFirstLetter } from "../screens/Profile/helpers";
-import variables from "../design-tokens/_variables.module.scss"
+import Icon from "./Icon";
 
 const pageSwitchWidth = (currPath) => {
   switch (currPath) {
@@ -166,7 +166,6 @@ const Styled = {
     padding-left: 80px;
     margin-left: 2rem;
   `,
-
 };
 
 const Header = () => {
@@ -195,6 +194,11 @@ const Header = () => {
     router.push("/assistants");
   };
 
+  const goToManageWaivers = (e) => {
+    e.preventDefault();
+    router.push("/manage-waivers");
+  };
+
   const currPageMatches = (page) => router.pathname === page;
 
   return (
@@ -208,9 +212,7 @@ const Header = () => {
         }}
       >
         <NavbarBrand tag={(props) => <Link {...props} />} href="/">
-          <div
-            style={{ width: "175px", cursor: "pointer" }}
-          >
+          <div style={{ width: "175px", cursor: "pointer" }}>
             <Image
               objectFit="contain"
               height="60px"
@@ -251,31 +253,42 @@ const Header = () => {
               >
                 <Styled.PageLink>Past Events</Styled.PageLink>
               </Link>
-              <Styled.Dropdown nav inNavbar className="navbar-nav">
-                <Styled.Toggle color="white">
-                  <Styled.UserContainer>
-                    <Styled.TxtContainer>
-                      {user.role === "admin" && (
-                        <Link
-                          href="/settings"
-                          selected={currPageMatches("/settings")}
-                        >
-                          <Styled.PageLink style={{"font-size": "100%"}}>Settings</Styled.PageLink>
-                        </Link>
-                      )}
-                    </Styled.TxtContainer>
-                    <Styled.ImgContainer>
-                      <Icon name="dropdown-arrow" size="1.5rem" />
-                    </Styled.ImgContainer>
-                  </Styled.UserContainer>
-                </Styled.Toggle>
+              {user.role === "admin" && (
+                <Styled.Dropdown nav inNavbar className="navbar-nav">
+                  <Styled.Toggle color="white">
+                    <Styled.UserContainer>
+                      <Styled.TxtContainer>
+                          <Link
+                            href="/settings"
+                            selected={currPageMatches("/settings")}
+                          >
+                            <Styled.PageLink style={{ "font-size": "100%" }}>
+                              Settings
+                            </Styled.PageLink>
+                          </Link>
+                      </Styled.TxtContainer>
+                      <Styled.ImgContainer>
+                        <Icon name="dropdown-arrow" size="1.5rem" />
+                      </Styled.ImgContainer>
+                    </Styled.UserContainer>
+                  </Styled.Toggle>
 
-                <DropdownMenu style={{ width: "100%", marginTop: "0.6rem", border: "none"}}>
-                  <DropdownItem onClick={goToManageAdmins} href="/assistants">
-                    <Styled.DropdownItem>Manage Admins</Styled.DropdownItem>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Styled.Dropdown>
+                  <DropdownMenu
+                    style={{ width: "100%", marginTop: "0.6rem", border: "none" }}
+                  >
+                    <DropdownItem onClick={goToManageAdmins} href="/assistants">
+                      <Styled.DropdownItem>Manage Admins</Styled.DropdownItem>
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={goToManageWaivers}
+                      href="/manage-waivers"
+                    >
+                      <Styled.DropdownItem>Manage Waivers</Styled.DropdownItem>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Styled.Dropdown>
+              )}
+
             </Styled.PageSwitch>
             <Styled.Dropdown nav inNavbar className="navbar-nav">
               <Styled.Toggle color="white">
