@@ -9,7 +9,7 @@ import { fetchEvents } from "../../../actions/queries";
 import Icon from "../../../components/Icon";
 import variables from "../../../design-tokens/_variables.module.scss";
 import { registerForEvent, updateEvent } from "./eventHelpers";
-import EventTable from "./EventTable";
+import HomePageEventTable from "./HomePageEventTable";
 
 const Styled = {
   Container: styled.div`
@@ -31,7 +31,7 @@ const Styled = {
     background: ${variables.primary};
     border: none;
     color: white;
-    width: 7.5rem;
+    width: 8rem;
     height: 3rem;
     margin-top: 2rem;
 
@@ -131,85 +131,17 @@ const EventManager = ({ user }) => {
     onRefresh();
   };
 
-  const [value, setDate] = useState(new Date());
-
-  const onChange = (value, event) => {
-    setDate(value);
-    let datestr = value.toString();
-    let selectDate = new Date(datestr).toISOString().split("T")[0];
-
-    setLoading(true);
-    fetchEvents(selectDate, selectDate)
-      .then((result) => {
-        if (result && result.data && result.data.events) {
-          setEvents(result.data.events);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const onRegisterClicked = (event, user) => {
-    setShowRegisterModal(true);
-    setCurrEvent(event);
-    setCurrUser(user);
-    router.replace("/register");
-  };
-
-  const toggleRegisterModal = () => {
-    setShowRegisterModal((prev) => !prev);
-    onRefresh();
-  };
-  const formatJsDate = (jsDate, separator = "/") => {
-    return [
-      String(jsDate.getFullYear()).padStart(4, "0"),
-      String(jsDate.getMonth() + 1).padStart(2, "0"),
-      String(jsDate.getDate()).padStart(2, "0"),
-    ].join(separator);
-  };
-  const setMarkDates = ({ date, view }, markDates) => {
-    const fDate = formatJsDate(date, "-");
-    let tileClassName = "";
-    let test = [];
-    for (let i = 0; i < markDates.length; i++) {
-      test.push(markDates[i].date.slice(0, 10));
-    }
-    if (test.includes(fDate)) {
-      tileClassName = "marked";
-    }
-    return tileClassName !== "" ? tileClassName : null;
-  };
-
   return (
     <Styled.Container>
-      <Styled.HeaderContainer>
-        <Styled.EventContainer>
-          <Styled.Events>Events</Styled.Events>
-          <Styled.Date>{value.toDateString()}</Styled.Date>
-        </Styled.EventContainer>
-        <Styled.Button onClick={onRefresh}>
-          <Icon color="grey3" name="refresh" />
-          <span>Refresh</span>
-        </Styled.Button>
-      </Styled.HeaderContainer>
       <Styled.Content>
-        <Calendar
-          onChange={onChange}
-          value={value}
-          tileClassName={({ date, view }) =>
-            setMarkDates({ date, view }, markDates)
-          }
-        />
-
-        <EventTable
+        <HomePageEventTable
           events={events}
           onRegisterClicked={onRegister}
           onUnregister={onUnregister}
           user={user}
         >
           {" "}
-        </EventTable>
+        </HomePageEventTable>
       </Styled.Content>
     </Styled.Container>
   );
