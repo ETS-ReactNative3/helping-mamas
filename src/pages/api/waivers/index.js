@@ -8,7 +8,7 @@ import path from "path";
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      glob("./public/files/*", function (er, files) {
+      glob("files/*", function (er, files) {
         for (const filePath of files) {
           const splits = filePath.split("/");
           const [fileName, extension] = splits[3].split(".");
@@ -20,7 +20,7 @@ const upload = multer({
           }
         }
       });
-      cb(null, "./public/files/");
+      cb(null, "files/");
     },
     filename: (req, file, cb) => {
       cb(null, file.fieldname + path.extname(file.originalname));
@@ -84,7 +84,7 @@ apiRoute.get("/api/waivers/", async (req, res) => {
   let minor = req.query.minor.toLowerCase() === "true";
   let adult = req.query.adult.toLowerCase() === "true";
   let result = {};
-  let paths = glob.sync("./public/files/*");
+  let paths = glob.sync("files/*");
   if (adult) {
     for (const filePath of paths) {
       const splits = filePath.split("/");
